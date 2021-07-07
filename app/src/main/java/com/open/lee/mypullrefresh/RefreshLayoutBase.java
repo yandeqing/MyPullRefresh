@@ -196,8 +196,9 @@ public abstract class RefreshLayoutBase<T extends View> extends ViewGroup {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mState == RefreshState.REFRESHING_STATE)
+        if (mState == RefreshState.REFRESHING_STATE) {
             return true;
+        }
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 mLastY = (int) event.getRawY();
@@ -206,7 +207,7 @@ public abstract class RefreshLayoutBase<T extends View> extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 int currentY = (int) event.getRawY();
                 mYOffset = currentY - mLastY;
-                changeScrollY(mYOffset);
+                changeScrollY((int) (mYOffset*0.6));
                 mLastY = currentY;
                 break;
 
@@ -299,7 +300,7 @@ public abstract class RefreshLayoutBase<T extends View> extends ViewGroup {
             return;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 360f);
         animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(700);
+        animator.setDuration(500);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
